@@ -40,6 +40,6 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     */
 });
 
-Route::resource('profile', ProfileController::class)
+Route::middleware('auth')->resource('profile', ProfileController::class)
     ->only(['update', 'show', 'destroy'])
     ->parameters(['profile' => 'user']);
