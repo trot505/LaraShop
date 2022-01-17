@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +16,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('adminDashboard');
+    Route::get('/users', [AdminController::class, 'users'])->name('adminUsers');
+    Route::get('/enterasuser/{id}', [AdminController::class, 'enterAsUser'])->name('enterAsUser');
+
+    Route::get('/category',[AdminController::class,'categories'])->name('adminCategories');
+    Route::get('/product',[AdminController::class,'products'])->name('adminProducts');
+    /*Route::prefix('category')->group(function () {
+        Route::get('/',[AdminController::class,'categories'])->name('adminCategories');
+    });
+
+    Route::prefix('product')->group(function () {
+        Route::get('/',[AdminController::class,'products'])->name('adminProducts');
+    });
+    */
+});
+
+Route::resource('profile', ProfileController::class)
+    ->only(['update', 'show', 'destroy'])
+    ->parameters(['profile' => 'user']);
