@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -28,12 +30,17 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/users', [AdminController::class, 'users'])->name('adminUsers');
     Route::get('/enterasuser/{id}', [AdminController::class, 'enterAsUser'])->name('enterAsUser');
 
-    Route::get('/category',[AdminController::class,'categories'])->name('adminCategories');
-    Route::get('/product',[AdminController::class,'products'])->name('adminProducts');
-    /*Route::prefix('category')->group(function () {
-        Route::get('/',[AdminController::class,'categories'])->name('adminCategories');
-    });
+    //Route::get('/category',[CategoryController::class,'index'])->name('adminCategories');
+    Route::get('/product',[ProductController::class,'index'])->name('adminProducts');
 
+    Route::resource('category',CategoryController::class, [
+        'names' => [
+            'index' => 'adminCategories',
+            'create' => 'adminCategoryCreate',
+        ]
+    ]);
+
+    /*
     Route::prefix('product')->group(function () {
         Route::get('/',[AdminController::class,'products'])->name('adminProducts');
     });

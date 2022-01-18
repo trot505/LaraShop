@@ -26,18 +26,4 @@ class AdminController extends Controller
         Auth::loginUsingId($id);
         return view('home');
     }
-
-    function categories(){
-        $categories = Category::all();
-
-        $title = 'Спсиок категорий';
-        return view('admin.categories', compact('title', 'categories'));
-    }
-
-    function products(){
-        $products = Product::all();
-
-        $title = 'Спсиок товаров';
-        return view('admin.products', compact('title', 'products'));
-    }
 }

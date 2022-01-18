@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <h1>{{ $title }}</h1>
+    <h1>{{ $title }} <a class="link-info float-end fs-5 lh-base" href="{{route('adminCategoryCreate')}}" role="button">Создать категорию</a> </h1>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -20,7 +20,7 @@
             @empty
                 <tr><td class="text-center" colspan="3">{{ $title }} пуст</td></tr>
             @endforelse
-            
+
         </tbody>
     </table>
 @endsection
