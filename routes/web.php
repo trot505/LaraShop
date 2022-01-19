@@ -31,12 +31,14 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/enterasuser/{id}', [AdminController::class, 'enterAsUser'])->name('enterAsUser');
 
     //Route::get('/category',[CategoryController::class,'index'])->name('adminCategories');
-    Route::get('/product',[ProductController::class,'index'])->name('adminProducts');
+    Route::get('/product',[ProductController::class,'index'])->name('products');
 
     Route::resource('category',CategoryController::class, [
         'names' => [
-            'index' => 'adminCategories',
-            'create' => 'adminCategoryCreate',
+            'index' => 'categories',
+            'create' => 'categoryCreate',
+            'update' => 'categoryUpdate',
+            'store' => 'categorySave'
         ]
     ]);
 

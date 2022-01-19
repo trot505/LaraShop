@@ -54,7 +54,7 @@ class ProfileController extends Controller
         $avatar = $request->file('avatar') ?? null;
 
         if ($avatar){
-            $path = $avatar->store(config('my.public_images').'users');
+            $path = $avatar->store(config('my.images_user'));
             $user->avatar = pathinfo($path, PATHINFO_BASENAME);
         }
 

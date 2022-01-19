@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Auth;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+    private $titleDefault = 'Спсиок категорий';
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::orderByDesc('id')->paginate(30);
-
-        $title = 'Спсиок категорий';
+        $title = $this->titleDefault;
         return view('admin.categories', compact('title', 'categories'));
     }
 
@@ -28,8 +30,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories= Category::select('id', 'name')->get();
-        return view('admin.pages.category-form', compact('categories'));
+        $title = 'Создание категории';
+        return view('admin.pages.category-form', compact('title'));
     }
 
     /**
@@ -40,7 +42,26 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(!Auth::user()->is_admin) return redirect()->route('home');
+        $request->validate([
+            'name' => 'required',
+            'picture' => "mimetypes:image/*"
+        ]);
+
+        $r = $request->all();
+        $category = new Category();
+        $picture = $request->file('picture') ?? null;
+
+        if ($picture){
+            $path = $picture->store(config('my.images_product'));
+            $category->picture = pathinfo($path, PATHINFO_BASENAME);
+        }
+
+        $category->name = $r['name'];
+        $category->description = $r['description'];
+        $category->save();
+
+        return $this->index();
     }
 
     /**

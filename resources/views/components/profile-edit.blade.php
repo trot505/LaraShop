@@ -5,7 +5,7 @@
     <div class="mb-3">
         <div class="row">
             <div class="col-3 text-center">
-                <img class="rounded" src="{{asset(config('my.public_images').'users/'.$user->avatar)}}" alt="Аватар пользователя" style="height: 12em;">
+                <img class="rounded" src="{{asset(config('my.images_user').$user->avatar)}}" alt="Аватар пользователя" style="height: 12em;">
             </div>
             <div class="col-9 d-flex">
                 <input class="form-control form-control-lg align-self-center @error('avatar') is-invalid @enderror" type="file" name="avatar" value="{{ $user->avatar }}">

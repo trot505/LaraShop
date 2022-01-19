@@ -1,3 +1,6 @@
+@php
+    $user = Auth::user() ?? null;
+@endphp
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -40,10 +43,10 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item dropdown d-flex">
                             <div class="me-2">
-                                <img src="{{asset(config('my.public_images').'users/'.$user->avatar)}}" alt="Ававтар" style="height:2em;width:2em;border-radius:50%;object-fit:cover;">
+                                <img src="{{asset(config('my.images_user').$user->avatar)}}" alt="Ававтар" style="height:2em;width:2em;border-radius:50%;object-fit:cover;">
                             </div>
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+                                {{ $user->name }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
