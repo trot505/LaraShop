@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-  
+
     function lx_forbidden (User $user){
-        $tu = Auth::user(); 
+        $tu = Auth::user();
         if ($tu->is_admin) return false;
         if($tu->id !== $user->id) return true;
         else return false;
@@ -45,13 +45,33 @@ class ProfileController extends Controller
         if($this->lx_forbidden($user)) return redirect()->route('home');
         $request->validate([
             'name' => 'required',
-            'email' => "email|required|unique:users,email,{$user->id}"
+            'email' => "email|required|unique:users,email,{$user->id}",
+            'avatar' => "mimetypes:image/*"
         ]);
 
         $r = $request->all();
+
+        $avatar = $request->file('avatar') ?? null;
+
+        if ($avatar){
+            $path = $avatar->store(config('my.public_images').'users');
+            $user->avatar = pathinfo($path, PATHINFO_BASENAME);
+        }
+
+        $address = $r['address'] ?? null;
+        if($address){
+            $a = $user->addresses->where('main',1);
+            $main = $r['main'] ?? 0;
+            if($a->isNotEmpty()){
+                if($main) $a->first()->update(['main' => 0]);
+            } else $main = 1;
+
+            $user->addresses()->create(compact('address', 'main'));
+        }
+
         $user->name = $r['name'];
         $user->email = $r['email'];
-        $user->save();
+        $user->update();
 
         return back();
     }

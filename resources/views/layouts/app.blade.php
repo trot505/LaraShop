@@ -33,7 +33,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -53,6 +53,9 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
+                                <div class="me-2">
+                                    <img src="{{asset(config('my.public_images').'users/'.$user->avatar)}}" alt="Ававтар" style="height:2em;width:2em;border-radius:50%;object-fit:cover;">
+                                </div>
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
@@ -79,7 +82,7 @@
         <main class="py-4">
             <div class="container">
                 @yield('content')
-            </div> 
+            </div>
         </main>
     </div>
 </body>
