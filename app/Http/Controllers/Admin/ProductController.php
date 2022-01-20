@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.pages.product-form', compact('categories'));
     }
 
     /**
@@ -39,7 +41,31 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'category_id' => 'required|integer',
+            'price' => 'numeric',
+            'amount' => 'integer',
+            'picture' => "mimetypes:image/*"
+        ]);
+
+        $r = $request->all();
+        $product = new Product();
+        $picture = $request->file('picture') ?? null;
+
+        if ($picture){
+            $path = $picture->store(config('my.images_product'));
+            $product->picture = pathinfo($path, PATHINFO_BASENAME);
+        }
+
+        $product->name = $r['name'];
+        $product->category_id = $r['category_id'];
+        $product->price = $r['price'];
+        $product->amount = $r['amount'];
+        $product->description = $r['description'];
+        $product->save();
+
+        return redirect()->route('products');
     }
 
     /**

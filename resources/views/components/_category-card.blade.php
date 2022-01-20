@@ -1,4 +1,4 @@
-<div class="card mb-3 category_card align-items-stretch" style="max-width: 425px;">
+<div class="card mb-3 ul_actions_card align-items-stretch" style="max-width: 425px;">
     <div class="row g-0">
       <div class="col-md-5 text-center p-1">
         <img src="{{asset(config('my.images_product').$category->picture)}}" class="img-fluid h-100" alt="{{$category->name}}" style="object-fit:contain;">

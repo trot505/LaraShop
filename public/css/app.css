@@ -17419,6 +17419,6 @@ readers do not read off random characters that represent icons */
   color: #20c997 !important;
 }
 
-.category_card ul li:hover {
+.ul_actions_card ul li:hover {
   background-color: #000 !important;
 }

@@ -42,7 +42,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        if(!Auth::user()->is_admin) return redirect()->route('home');
+        //if(!Auth::user()->is_admin) return redirect()->route('home');
         $request->validate([
             'name' => 'required',
             'picture' => "mimetypes:image/*"

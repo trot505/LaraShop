@@ -1,28 +1,12 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <h1>{{ $title }}</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Товар</th>
-                <th scope="col">Категория</th>
-                <th scope="col">Цена</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($products as $product)
-                <tr>
-                    <th scope="row">{{ $product->id }}</th>
-                    <td><a href="{{ route('product.edit', $product) }}">{{ $product->name }}</td>
-                    <td>{{ $category->category_id }}</td>
-                    <td>{{ $category->price }}</td>
-                </tr>
-            @empty
-                <tr><td class="text-center" colspan="4">{{ $title }} пуст</td></tr>    
-            @endforelse
-            
-        </tbody>
-    </table>
+    <h1>{{ $title }} <a class="link-info float-end fs-5 lh-base" href="{{route('productCreate')}}" role="button">Добавить товар</a></h1>
+    <div class="d-flex flex-wrap align-items-stretch justify-content-around">
+    @forelse ($products as $product)
+            @include('components._product-card',$product)
+    @empty
+        <div class="fs-3 text-warning">{{ $title }} пуст</div>
+    @endforelse
+    </div>
 @endsection

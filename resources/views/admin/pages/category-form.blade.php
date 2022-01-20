@@ -16,7 +16,7 @@
             placeholder="Имя категории"
             value={{ $category->name ?? old('name')}}
             >
-        <label for="formEmail">Имя категории</label>
+        <label for="formName">Имя категории</label>
     </div>
     <div class="form-floating">
         <textarea class="form-control @error('description') is-invalid @enderror"

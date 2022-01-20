@@ -42,6 +42,15 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
         ]
     ]);
 
+    Route::resource('product',ProductController::class, [
+        'names' => [
+            'index' => 'products',
+            'create' => 'productCreate',
+            'update' => 'productUpdate',
+            'store' => 'productSave'
+        ]
+    ]);
+
     /*
     Route::prefix('product')->group(function () {
         Route::get('/',[AdminController::class,'products'])->name('adminProducts');
