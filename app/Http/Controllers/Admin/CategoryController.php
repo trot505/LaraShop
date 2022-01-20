@@ -61,7 +61,7 @@ class CategoryController extends Controller
         $category->description = $r['description'];
         $category->save();
 
-        return $this->index();
+        return redirect()->route('categories');
     }
 
     /**
