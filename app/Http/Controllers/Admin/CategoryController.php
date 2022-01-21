@@ -18,11 +18,18 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderByDesc('id')->paginate(30);
+        $categories = Category::orderByDesc('id')->with('products')->paginate(30);
         $title = $this->titleDefault;
         return view('admin.categories', compact('title', 'categories'));
     }
 
+    public function productList (Category $category)
+    {
+        $products = $category->products;
+
+        $title = "Спсиок товаров для категории $category->name";
+        return view('admin.products', compact('title', 'products'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -49,17 +56,14 @@ class CategoryController extends Controller
         ]);
 
         $r = $request->all();
-        $category = new Category();
         $picture = $request->file('picture') ?? null;
 
         if ($picture){
             $path = $picture->store(config('my.images_product'));
-            $category->picture = pathinfo($path, PATHINFO_BASENAME);
+            $r['picture'] = pathinfo($path, PATHINFO_BASENAME);
         }
 
-        $category->name = $r['name'];
-        $category->description = $r['description'];
-        $category->save();
+        Category::create($r);
 
         return redirect()->route('categories');
     }
@@ -83,7 +87,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $title = 'Реадктирование категории';
+        return view('admin.pages.category-form', compact('title', 'category'));
     }
 
     /**
@@ -106,6 +111,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return back();
     }
 }

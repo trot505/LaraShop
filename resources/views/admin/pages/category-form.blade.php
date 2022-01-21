@@ -14,7 +14,7 @@
             name="name"
             id="formName"
             placeholder="Имя категории"
-            value={{ $category->name ?? old('name')}}
+            value="{{ $category->name ?? old('name')}}"
             >
         <label for="formName">Имя категории</label>
     </div>
@@ -22,13 +22,27 @@
         <textarea class="form-control @error('description') is-invalid @enderror"
             name="description"
             id="formDescription"
-            placeholder="Описание категории">{{ $category->description ?? old('discription')}}</textarea>
+            placeholder="Описание категории">{{ $category->description ?? old('description')}}</textarea>
         <label for="formDescription">Описание категории</label>
     </div>
+    @if(!empty($category))
+    <div class="mt-3">
+        <div class="row">
+            <div class="col-3 text-center">
+                <img class="rounded" src="{{asset(config('my.images_product').$category->picture)}}" alt="{{ $category->name }}" style="height: 12em;">
+            </div>
+            <div class="col-9 d-flex flex-column justify-content-center">
+                <label for="formPicture" class="form-label">Загрузить новое изображение категории</label>
+                <input id="formPicture" class="form-control form-control-lg @error('picture') is-invalid @enderror" type="file" name="picture">
+            </div>
+        </div>
+    </div>
+    @else
     <div class="mt-3">
         <label for="formPicture" class="form-label">Загрузить изображение категории</label>
         <input id="formPicture" class="form-control form-control-lg align-self-center @error('picture') is-invalid @enderror" type="file" name="picture">
     </div>
+    @endif
     <button type="submit" class="btn btn-outline-success mt-3 w-100">Сохранить</button>
 </form>
 @endsection

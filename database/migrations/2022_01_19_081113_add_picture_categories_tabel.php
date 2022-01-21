@@ -14,7 +14,7 @@ class AddPictureCategoriesTabel extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->string('picture')->after('description')->default('no_picture.png');
+            $table->string('picture')->after('description')->nullable()->default('no_picture.png');
         });
     }
 

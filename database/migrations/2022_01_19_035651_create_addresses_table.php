@@ -17,7 +17,7 @@ class CreateAddressesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->text('address');
-            $table->boolean('main')->default(0);
+            $table->boolean('main')->nullable()->default(0);
 
             $table->timestamps();
         });

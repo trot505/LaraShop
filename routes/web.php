@@ -31,23 +31,31 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/enterasuser/{id}', [AdminController::class, 'enterAsUser'])->name('enterAsUser');
 
     //Route::get('/category',[CategoryController::class,'index'])->name('adminCategories');
-    Route::get('/product',[ProductController::class,'index'])->name('products');
+    //Route::get('/product',[ProductController::class,'index'])->name('products');
 
+    Route::get('category/{category}/products',[CategoryController::class,'productList'])->name('productCategory');
     Route::resource('category',CategoryController::class, [
         'names' => [
             'index' => 'categories',
             'create' => 'categoryCreate',
             'update' => 'categoryUpdate',
-            'store' => 'categorySave'
+            'store' => 'categorySave',
+            'show' => 'categoryShow',
+            'edit' => 'categoryEdit',
+            'destroy' => 'categoryDelete',
         ]
     ]);
 
+    Route::get('product/category-create/{category}',[ProductController::class,'createProductCategory'])->name('createProductCategory');
     Route::resource('product',ProductController::class, [
         'names' => [
             'index' => 'products',
             'create' => 'productCreate',
             'update' => 'productUpdate',
-            'store' => 'productSave'
+            'store' => 'productSave',
+            'show' => 'productShow',
+            'edit' => 'productEdit',
+            'destroy' => 'productDelete'
         ]
     ]);
 

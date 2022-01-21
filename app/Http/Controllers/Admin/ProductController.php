@@ -33,6 +33,12 @@ class ProductController extends Controller
         return view('admin.pages.product-form', compact('categories'));
     }
 
+    public function createProductCategory(Category $category)
+    {
+        $category_id = $category->id;
+        $categories = Category::all();
+        return view('admin.pages.product-form', compact('categories', 'category_id'));
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -44,26 +50,29 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'category_id' => 'required|integer',
-            'price' => 'numeric',
-            'amount' => 'integer',
-            'picture' => "mimetypes:image/*"
+            'price' => 'sometimes|numeric',
+            'amount' => 'sometimes|nullable|integer',
+            'picture' => "sometimes|mimetypes:image/*"
         ]);
 
-        $r = $request->all();
-        $product = new Product();
+        $r = $request->post();
+        //$product = new Product();
         $picture = $request->file('picture') ?? null;
 
         if ($picture){
             $path = $picture->store(config('my.images_product'));
-            $product->picture = pathinfo($path, PATHINFO_BASENAME);
+            //$product->picture = pathinfo($path, PATHINFO_BASENAME);
+            $r['picture'] = pathinfo($path, PATHINFO_BASENAME);
         }
 
-        $product->name = $r['name'];
+        /*$product->name = $r['name'];
         $product->category_id = $r['category_id'];
         $product->price = $r['price'];
         $product->amount = $r['amount'];
         $product->description = $r['description'];
-        $product->save();
+        $product->save();*/
+
+        Product::create($r);
 
         return redirect()->route('products');
     }
@@ -87,7 +96,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        $title = 'Реадктирование товара';
+        return view('admin.pages.product-form', compact('title', 'product','categories'));
     }
 
     /**
@@ -110,6 +121,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return back();
     }
 }

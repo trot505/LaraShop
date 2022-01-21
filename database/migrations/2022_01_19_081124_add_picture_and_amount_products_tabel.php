@@ -14,8 +14,8 @@ class AddPictureAndAmountProductsTabel extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('picture')->after('description')->default('no_picture.png');
-            $table->integer('amount')->after('picture')->default(0);
+            $table->string('picture')->after('description')->nullable()->default('no_picture.png');
+            $table->integer('amount')->after('picture')->nullable()->default(0);
         });
     }
 

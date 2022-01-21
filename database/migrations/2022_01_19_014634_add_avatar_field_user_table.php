@@ -14,7 +14,7 @@ class AddAvatarFieldUserTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('avatar')->after('is_admin')->default('no_avatar.png');
+            $table->string('avatar')->after('is_admin')->nullable()->default('no_avatar.png');
         });
     }
 
