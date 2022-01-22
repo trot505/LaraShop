@@ -18,9 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
@@ -29,10 +26,8 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('adminDashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('adminUsers');
     Route::get('/enterasuser/{id}', [AdminController::class, 'enterAsUser'])->name('enterAsUser');
-
     //Route::get('/category',[CategoryController::class,'index'])->name('adminCategories');
     //Route::get('/product',[ProductController::class,'index'])->name('products');
-
     Route::get('category/{category}/products',[CategoryController::class,'productList'])->name('productCategory');
     Route::resource('category',CategoryController::class, [
         'names' => [
@@ -45,7 +40,6 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
             'destroy' => 'categoryDelete',
         ]
     ]);
-
     Route::get('product/category-create/{category}',[ProductController::class,'createProductCategory'])->name('createProductCategory');
     Route::resource('product',ProductController::class, [
         'names' => [
@@ -58,12 +52,6 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
             'destroy' => 'productDelete'
         ]
     ]);
-
-    /*
-    Route::prefix('product')->group(function () {
-        Route::get('/',[AdminController::class,'products'])->name('adminProducts');
-    });
-    */
 });
 
 Route::middleware('auth')->resource('profile', ProfileController::class)
