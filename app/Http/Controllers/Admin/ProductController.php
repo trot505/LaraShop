@@ -56,22 +56,12 @@ class ProductController extends Controller
         ]);
 
         $r = $request->post();
-        //$product = new Product();
         $picture = $request->file('picture') ?? null;
 
         if ($picture){
             $path = $picture->store(config('my.images_product'));
-            //$product->picture = pathinfo($path, PATHINFO_BASENAME);
             $r['picture'] = pathinfo($path, PATHINFO_BASENAME);
         }
-
-        /*$product->name = $r['name'];
-        $product->category_id = $r['category_id'];
-        $product->price = $r['price'];
-        $product->amount = $r['amount'];
-        $product->description = $r['description'];
-        $product->save();*/
-
         Product::create($r);
 
         return redirect()->route('products');
