@@ -15,8 +15,8 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            'category_id' => User::all()->shuffle()->first(),
-            'address' => $this->faker->text(rand(3,15))
+            'user_id' => User::all()->shuffle()->first(),
+            'address' => $this->faker->text(rand(5,15))
         ];
     }
 }

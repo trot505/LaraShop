@@ -1,9 +1,10 @@
-<div class="card mb-3 ul_actions_card d-flex flex-row" style="max-width: 300px;">
+<div class="col">
+<div class="card mb-3 h-100 border-secondary ul_actions_card d-flex flex-row">
     <div class="d-flex flex-column justify-content-end">
       <div class="text-center flex-grow-1 p-1">
         <img src="{{asset(config('my.images_product').$product->picture)}}" class="img-fluid h-100" alt="{{$product->name}}" style="object-fit:contain;">
       </div>
-      <div class="card-body ms-auto d-flex flex-column p-1">
+      <div class="d-flex flex-column p-1">
             <h5 class="text-center">{{$product->name}}</h5>
             <div class="d-flex">
                 <p class="card-text flex-grow-1"><small class="text-muted">{{substr($product->description,0,35).'...'}}</small></p>
@@ -54,4 +55,5 @@
         </li>
         @endif
     </ul>
+</div>
 </div>

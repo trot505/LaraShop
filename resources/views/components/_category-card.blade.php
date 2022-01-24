@@ -1,5 +1,5 @@
 <div class="col">
-    <div class="d-flex bg-white rounded-2 border border-secondary">
+    <div class="d-flex h-100 bg-white rounded-2 border border-secondary ul_actions_card">
       <div class="col-md-5 text-center p-1">
         <img src="{{asset(config('my.images_product').$category->picture)}}" class="img-fluid h-100" alt="{{$category->name}}" style="object-fit:contain;">
       </div>
@@ -22,7 +22,7 @@
                     <span class="position-absolute start-50 top-0 badge rounded-pill bg-info">{{$countProducts ?? 0}}</span>
                 </a>
             </li>
-            @if(Auth::user()->is_admin)
+            @if(Auth::user()?->is_admin)
             <li class="list-group-item text-center bg-transparent" style="border:none;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Добавить товар">
                 <a href="{{route('createProductCategory', $category)}}" class="text-warning">
                     <i class="fas fa-plus fs-5"></i>

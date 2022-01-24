@@ -4,66 +4,82 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use Arr;
+use File;
 use Illuminate\Http\Request;
+use Storage;
 
 class FileController extends Controller
 {
-    protected $addFile;
-    protected $saveFile;
+    protected $pathFile;
+    protected $data;
+    protected $columnName;
+    protected $textFile;
+    protected $insertArray;
+    protected const START_FILE = '\UFEFF';
 
-    public function parse(Request $request, string $cls){
+    public function upload (Request $request, string $cls){
+
 
         $request->validate([
-            'add_file' => 'mimes:csv'
+            'parse_file' => 'required|file|mimes:csv,txt'
         ]);
 
-        $this->addFile = $request->file('add_file');
+        $this->pathFile = $request->file('parse_file')->store('public');
 
+        $this->readFile();
+        $this->insertDb($cls);
+
+        return back();
     }
 
     public function save(string $cls){
+        $saveFile = config('my.public_files').'downloadsFile.csv';
 
+        $headers = [
+            'Content-Description: File Transfer',
+            'Content-Type: application/octet-stream',
+            'Content-Transfer-Encoding: binary',
+            'Expires: 0',
+            'Cache-Control: must-revalidate',
+            'Pragma: public'
+        ];
+
+        $cls = "\App\Models\\$cls";
+        $this->data = $cls::get()->makeHidden(['picture','created_at','updated_at']);
+        [$this->columnName] = Arr::divide($this->data->first()->toArray());
+
+        $this->textFile = implode(';',$this->columnName).PHP_EOL;
+
+        foreach($this->data->toArray() as $el){
+            $this->textFile .= implode(';',$el).PHP_EOL;
+        }
+
+        Storage::put($saveFile, $this->textFile);
+
+        return Storage::download($saveFile,'downloadFile.csv',$headers);
     }
 
     protected function readFile(){
-        $fd = fopen($this->addFile, 'r');
-        $r = 1;
-        while (($data = fgetcsv($fd, 1000, ",")) !== FALSE) {
-            if($r == 1){
-
-            }
+        $cont = fopen(Storage::path($this->pathFile),'r');
+        $this->columnName = fgetcsv($cont,3000,';');
+        while(!feof($cont)){
+            $line = fgetcsv($cont,3000,';');
+            dump($line);
+            if($line && count($line) == count($this->columnName)) $this->insertArray[] = array_combine($this->columnName,$line);
         }
-        fclose($fd);
+        fclose($cont);
+        Storage::delete($this->pathFile);
     }
 
-    function remove_utf8_bom($text)
+    protected function insertDb (string $cls){
+        $cls = "\App\Models\\$cls";
+        dd($cls::insert($this->insertArray));
+    }
+    /*function remove_utf8_bom($text)
     {
         $bom = pack('H*','EFBBBF');
         $text = preg_replace("/^$bom/", '', $text);
         return $text;
-    }
-
-    function file_force_download() {
-        if (file_exists($this->saveFile)) {
-            // сбрасываем буфер вывода PHP, чтобы избежать переполнения памяти выделенной под скрипт
-            // если этого не сделать файл будет читаться в память полностью!
-            if (ob_get_level()) {
-                ob_end_clean();
-            }
-            // заставляем браузер показать окно сохранения файла
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=' . basename($this->saveFile));
-            header('Content-Transfer-Encoding: binary');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($this->saveFile));
-            // читаем файл и отправляем его пользователю
-            readfile($this->saveFile);
-            //удаление файла
-            unlink($this->saveFile);
-            exit;
-        }
-    }
+    }*/
 }

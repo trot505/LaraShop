@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -57,3 +58,6 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
 Route::middleware('auth')->resource('profile', ProfileController::class)
     ->only(['update', 'show', 'destroy'])
     ->parameters(['profile' => 'user']);
+
+Route::get('save-file/{cls}',[FileController::class,'save'])->name('saveFile');
+Route::post('upload-file/{cls}',[FileController::class,'upload'])->name('uploadFile');

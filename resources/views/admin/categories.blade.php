@@ -10,12 +10,13 @@
                 </a>
             </div>
             <div class="btn-group lh-base" role="group">
-                <a class="btn btn-secondary fs-5 text-teal" href="{{route('categoryCreate')}}" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Выгрузить в файл">
+                <a class="btn btn-secondary fs-5 text-teal" href="{{route('saveFile','Category')}}" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Выгрузить в файл">
                     <i class="fas fa-file-upload"></i>
                 </a>
             </div>
-            <form class="rounded-2 ms-2 bg-secondary d-flex" action="" enctype="multipart/form-data">
-                <input class="form-control form-control-sm align-self-center m-1" name="add_file" type="file">
+            <form class="rounded-2 ms-2 bg-secondary d-flex" action="{{route('uploadFile','Category')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input class="form-control form-control-sm align-self-center m-1 @error('parse_file') is-invalid @enderror" name="parse_file" type="file" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@error('parse_file') {{$message}} @enderror">
                 <button type="submit" class="btn btn-secondary fs-5 text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Загрузить из файла">
                     <i class="fas fa-file-download"></i>
                 </button>
