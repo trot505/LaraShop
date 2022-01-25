@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+    @if(Auth::user()?->is_admin)
+    <div class="alert alert-info d-flex align-items-stretch p-1" role="alert">
+        <i class="fas fa-info-circle fs-1 text-warning ms-1 me-3 align-self-center"></i>
+        <p class="align-self-center m-0">
+        Для добавления товаров из файла необходимо подготовить файл в формате *.csv или *.txt. Первой строкой в фале должны быть названия колонок name (имя категории), category_id (Идентификатор категории), price (цена товара), amount (количество товара), description (описание категории). Разделитель колонок точка с запятой (;).
+        </p>
+    </div>
+    @endif
     <div class="d-flex mb-3">
         <h1 class="flex-fill">{{ $title ?? 'Товары'}}</h1>
         <div class="float-end d-flex align-items-center">

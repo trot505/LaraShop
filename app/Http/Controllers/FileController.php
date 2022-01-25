@@ -17,6 +17,14 @@ class FileController extends Controller
     protected $textFile;
     protected $insertArray;
     protected const START_FILE = '\UFEFF';
+    protected const COLUMN_LOCALE = [
+        'id' => 'Идентификатор',
+        'name' => 'Название',
+        'category_id' => 'Категория товара',
+        'price' => 'Цена',
+        'amount' => 'Количество',
+        'description' => 'Описание',
+    ];
 
     public function upload (Request $request, string $cls){
 
@@ -49,7 +57,9 @@ class FileController extends Controller
         $this->data = $cls::get()->makeHidden(['picture','created_at','updated_at']);
         [$this->columnName] = Arr::divide($this->data->first()->toArray());
 
-        $this->textFile = implode(';',$this->columnName).PHP_EOL;
+        $this->textFile = implode(';',array_values(array_intersect_key(self::COLUMN_LOCALE,array_flip($this->columnName)))).PHP_EOL;
+
+        //$this->textFile = implode(';',$this->columnName).PHP_EOL;
 
         foreach($this->data->toArray() as $el){
             $this->textFile .= implode(';',$el).PHP_EOL;
