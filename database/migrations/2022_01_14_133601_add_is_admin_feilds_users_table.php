@@ -14,7 +14,8 @@ class AddIsAdminFeildsUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_admin')->after('remember_token')->nullable()->default(0);
+            $table->boolean('is_admin')->after('remember_token')->default(0);
+            $table->string('avatar')->after('is_admin')->default('no_avatar.png');
         });
     }
 
@@ -27,6 +28,7 @@ class AddIsAdminFeildsUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('is_admin');
+            $table->dropColumn('avatar');
         });
     }
 }
