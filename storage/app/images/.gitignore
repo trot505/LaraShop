@@ -1,0 +1,6 @@
+*
+!.gitignore
+!products/
+!products/no_picture.png
+!users/
+!users/no_avatar.png

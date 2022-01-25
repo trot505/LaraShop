@@ -71,7 +71,7 @@
                 <label for="formAddress">Адрес</label>
             </div>
             <div class="col-2 form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="formMainAddress" name="main">
+                <input class="form-check-input" type="checkbox" id="formMainAddress" value="1" name="main">
                 <label class="form-check-label" for="formMainAddress">Основной адрес</label>
             </div>
         </div>

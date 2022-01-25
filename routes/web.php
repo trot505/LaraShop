@@ -23,36 +23,71 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Auth::routes();
 
+Route::get('category/{category}/products',[CategoryController::class,'productList'])->name('productCategory');
+Route::resource('category',CategoryController::class, [
+    'names' => [
+        'index' => 'categories',
+        'show' => 'categoryShow',
+    ]
+])->only([
+    'index',
+    'show'
+]);
+
+Route::resource('product',ProductController::class, [
+    'names' => [
+        'index' => 'products',
+        'show' => 'productShow',
+    ]
+])->only([
+    'index',
+    'show'
+]);
+
 Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('adminDashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('adminUsers');
     Route::get('/enterasuser/{id}', [AdminController::class, 'enterAsUser'])->name('enterAsUser');
     //Route::get('/category',[CategoryController::class,'index'])->name('adminCategories');
     //Route::get('/product',[ProductController::class,'index'])->name('products');
-    Route::get('category/{category}/products',[CategoryController::class,'productList'])->name('productCategory');
+
     Route::resource('category',CategoryController::class, [
         'names' => [
-            'index' => 'categories',
+            //'index' => 'categories',
             'create' => 'categoryCreate',
             'update' => 'categoryUpdate',
             'store' => 'categorySave',
-            'show' => 'categoryShow',
+            //'show' => 'categoryShow',
             'edit' => 'categoryEdit',
             'destroy' => 'categoryDelete',
         ]
+    ])->only([
+        'create',
+        'update',
+        'store',
+        'edit',
+        'destroy'
     ]);
     Route::get('product/category-create/{category}',[ProductController::class,'createProductCategory'])->name('createProductCategory');
     Route::resource('product',ProductController::class, [
         'names' => [
-            'index' => 'products',
+            //'index' => 'products',
             'create' => 'productCreate',
             'update' => 'productUpdate',
             'store' => 'productSave',
-            'show' => 'productShow',
+            //'show' => 'productShow',
             'edit' => 'productEdit',
             'destroy' => 'productDelete'
         ]
+    ])->only([
+        'create',
+        'update',
+        'store',
+        'edit',
+        'destroy'
     ]);
+
+    Route::post('upload-file/{cls}',[FileController::class,'upload'])->name('uploadFile');
 });
 
 Route::middleware('auth')->resource('profile', ProfileController::class)
@@ -60,4 +95,4 @@ Route::middleware('auth')->resource('profile', ProfileController::class)
     ->parameters(['profile' => 'user']);
 
 Route::get('save-file/{cls}',[FileController::class,'save'])->name('saveFile');
-Route::post('upload-file/{cls}',[FileController::class,'upload'])->name('uploadFile');
+
