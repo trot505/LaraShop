@@ -24,6 +24,6 @@ class AdminController extends Controller
 
     function enterAsUser($id){
         Auth::loginUsingId($id);
-        return view('home');
+        return redirect()->route('home');
     }
 }
