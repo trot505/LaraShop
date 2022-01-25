@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsAdminFeildsUsersTable extends Migration
+class AddPictureCategoriesTabel extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddIsAdminFeildsUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_admin')->after('remember_token')->nullable()->default(0);
+        Schema::table('categories', function (Blueprint $table) {
+            $table->string('picture')->after('description')->nullable()->default('no_picture.png');
         });
     }
 
@@ -25,8 +25,8 @@ class AddIsAdminFeildsUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_admin');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropColumn('picture');
         });
     }
 }

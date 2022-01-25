@@ -20,7 +20,7 @@ class CategoryController extends Controller
     {
         $categories = Category::orderByDesc('id')->with('products')->paginate(30);
         $title = $this->titleDefault;
-        return view('categories', compact('title', 'categories'));
+        return view('admin.categories', compact('title', 'categories'));
     }
 
     public function productList (Category $category)
@@ -28,7 +28,7 @@ class CategoryController extends Controller
         $products = $category->products;
 
         $title = "Спсиок товаров для категории $category->name";
-        return view('products', compact('title', 'products'));
+        return view('admin.products', compact('title', 'products'));
     }
     /**
      * Show the form for creating a new resource.

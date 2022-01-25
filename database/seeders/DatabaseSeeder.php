@@ -17,15 +17,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(1)->state([
-            'name' => 'Admin',
-            'email' => 'admin@larashop.com',
-            'is_admin' => 1,
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ])->create();
-        User::factory(10)->create();
+        User::factory(1)->create();
         Address::factory(7)->create();
         Category::factory(10)->create();
         Product::factory(37)->create();
+
     }
 }
