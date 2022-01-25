@@ -11,9 +11,8 @@ class ProfileController extends Controller
 
     function lx_forbidden (User $user){
         $tu = Auth::user();
-        if ($tu->is_admin) return false;
-        if($tu->id !== $user->id) return true;
-        else return false;
+        if ($tu->is_admin || $tu->id === $user->id) return false;
+        else return true;
     }
 
     function is_admin (){

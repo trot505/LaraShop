@@ -19,7 +19,7 @@ class ProductController extends Controller
         $products = Product::all();
 
         $title = 'Спсиок товаров';
-        return view('products', compact('title', 'products'));
+        return view('pages.products', compact('title', 'products'));
     }
 
     /**

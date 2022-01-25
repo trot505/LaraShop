@@ -28,7 +28,6 @@ class HomeController extends Controller
         if(Auth::user()?->is_admin) return redirect()->route('adminDashboard');
         else {
             $categories = Category::with('products')->get();
-
             return view('home', compact('categories'));
         }
     }

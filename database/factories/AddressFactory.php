@@ -16,7 +16,7 @@ class AddressFactory extends Factory
     {
         return [
             'user_id' => User::all()->shuffle()->first(),
-            'address' => $this->faker->text(rand(5,15))
+            'address' => $this->faker->words(rand(5,15),true)
         ];
     }
 }

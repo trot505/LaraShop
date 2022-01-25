@@ -20,7 +20,7 @@ class CategoryController extends Controller
     {
         $categories = Category::orderByDesc('id')->with('products')->paginate(30);
         $title = $this->titleDefault;
-        return view('categories', compact('title', 'categories'));
+        return view('pages.categories', compact('title', 'categories'));
     }
 
     public function productList (Category $category)
@@ -28,7 +28,7 @@ class CategoryController extends Controller
         $products = $category->products;
 
         $title = "Спсиок товаров для категории $category->name";
-        return view('products', compact('title', 'products'));
+        return view('pages.products', compact('title', 'products'));
     }
     /**
      * Show the form for creating a new resource.
@@ -65,7 +65,7 @@ class CategoryController extends Controller
 
         Category::create($r);
 
-        return redirect()->route('categories');
+        return redirect()->route('pages.categories');
     }
 
     /**

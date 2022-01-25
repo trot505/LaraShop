@@ -1,5 +1,5 @@
 <div class="col">
-<div class="card mb-3 h-100 border-secondary ul_actions_card d-flex flex-row">
+<div class="card mb-3 h-100 border-secondary d-flex flex-row">
     <div class="d-flex flex-column justify-content-end">
       <div class="text-center flex-grow-1 p-1">
         <img src="{{asset(config('my.images_product').$product->picture)}}" class="img-fluid h-100" alt="{{$product->name}}" style="object-fit:contain;">

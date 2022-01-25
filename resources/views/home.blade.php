@@ -1,1 +1,1 @@
-@include('categories')
+@include('pages.categories')

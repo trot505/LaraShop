@@ -17419,6 +17419,10 @@ readers do not read off random characters that represent icons */
   color: #20c997 !important;
 }
 
-.ul_actions_card ul li:hover {
+.ul_actions_card ul li a {
+  width: 100%;
+  height: 100%;
+}
+.ul_actions_card ul li a:hover {
   background-color: #000 !important;
 }

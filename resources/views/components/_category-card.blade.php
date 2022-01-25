@@ -1,5 +1,5 @@
 <div class="col">
-    <div class="d-flex h-100 bg-white rounded-2 border border-secondary ul_actions_card">
+    <div class="d-flex h-100 bg-white rounded-2 border border-secondary">
       <div class="col-md-5 text-center p-1">
         <img src="{{asset(config('my.images_product').$category->picture)}}" class="img-fluid h-100" alt="{{$category->name}}" style="object-fit:contain;">
       </div>
