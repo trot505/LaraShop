@@ -49,4 +49,4 @@ php artisan storage:link
 ```html
 <img src="{{asset(config('my.images_user').$user->avatar)}}" alt="Аватар пользователя">
 ```
-####З.Ы. нужен PHP 8+
+#### З.Ы. нужен PHP 8+
