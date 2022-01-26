@@ -1,2 +1,5 @@
 .text-cyan{color:$cyan !important;}
 .text-teal{color:$teal !important;}
+input.focus-none:focus-visible{
+    outline:none;
+}

@@ -26,7 +26,6 @@ class CategoryController extends Controller
     public function productList (Category $category)
     {
         $products = $category->products;
-
         $title = "Спсиок товаров для категории $category->name";
         return view('pages.products', compact('title', 'products'));
     }

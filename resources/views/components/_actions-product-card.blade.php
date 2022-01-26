@@ -8,9 +8,9 @@
     </a>
 </li>
 <li class="list-group-item text-center bg-transparent p-0" style="border:none;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="В корзину">
-    <form action="{{route('addCart',$product)}}" method="POST" id="amountForm_{{$product->id}}">
+    <form action="" method="POST" id="amountForm_{{$product->id}}">
         @csrf
-        <input class="p-0 m-0 w-100 text-light text-center border-0 bg-transparent" type="text" name="amount" id="amount_{{$product->id}}" value="0" readonly>
+        <input class="p-0 m-0 w-100 text-light text-center border-0 bg-transparent focus-none" type="text" name="amount" id="amount_{{$product->id}}" value="0" readonly>
     </form>
 </li>
 <li class="list-group-item text-center bg-transparent" style="border:none;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Уменьшить количество">

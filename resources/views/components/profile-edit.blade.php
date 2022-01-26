@@ -42,17 +42,57 @@
             <tbody>
                 @forelse ($user->addresses as $address)
                     <tr style="vertical-align: middle;">
-                        <td>{{ $address->address }}</td>
+                        <td>
+                            @if ($loop->first)<form></form>@endif
+                            <form class="d-flex flex-row" action="{{route('addressUpdate',$address)}}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <input type="text" name="address" id="addresFormInput_{{$address->id}}" class="form-control" value="{{ $address->address }}" disabled>
+                                <div class="btn-group lh-base me-2" role="group">
+                                <button type="submit" id="addresFormBtn_{{$address->id}}" class="btn btn-secondary ms-2 fs-4 text-teal d-none">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </form>
+                        </td>
                         <td class="text-center">
                             @if($address->main)
-                                <span class="border border-2 border-info rounded-3 text-info " style="padding:.2em .4em">v</span>
+                            <i class="fas fa-check fs-4 text-success"></i>
                             @endif
                         </td>
-                        <td class="text-center" width="5em">
-                            <div class="btn-group" role="group">
-                                <a href="#" class="btn btn-outline-primary">Основной</a>
-                                <a href="#" class="btn btn-outline-success">Редактировать</a>
-                                <a href="#" class="btn btn-outline-danger">Удалить</a>
+                        <td width="5em">
+                            <div class="float-end btn-group lh-base me-2" role="group">
+                                    <a class="btn btn-secondary fs-4 text-info" href="{{route('addressUpdate', $address)}}" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Сделать основным"
+                                    onclick="event.preventDefault();
+                                            let f = document.getElementById('mainForm_{{$address->id}}');
+                                            f.querySelector('input[name=main]').checked = true;
+                                            f.submit();
+                                    ">
+                                        <i class="far fa-check-circle"></i>
+                                    </a>
+                                    <form id="mainForm_{{$address->id}}" action="{{route('addressUpdate',$address)}}" method="POST" class="d-none">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="checkbox" value="1" name="main">
+                                    </form>
+                                    <a class="btn btn-secondary fs-4 text-teal" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Редактировать адрес"
+                                    onclick="event.preventDefault();
+                                            let i_{{$address->id}} = document.getElementById('addresFormInput_{{$address->id}}')
+                                            i_{{$address->id}}.disabled = false;
+                                            i_{{$address->id}}.focus();
+                                            document.getElementById('addresFormBtn_{{$address->id}}').classList.remove('d-none');
+                                    ">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <a class="btn btn-secondary fs-4 text-danger" href="{{route('addressDelete',$address)}}" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить адрес"
+                                    onclick="event.preventDefault();
+                                            document.getElementById('deleteForm_{{$address->id}}').submit();
+                                    ">
+                                        <i class="far fa-times-circle"></i>
+                                    </a>
+                                    <form id="deleteForm_{{$address->id}}" action="{{route('addressDelete',$address)}}" method="POST" class="d-none">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
                             </div>
                         </td>
                     </tr>

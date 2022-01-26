@@ -15,9 +15,6 @@ class ProfileController extends Controller
         else return true;
     }
 
-    function is_admin (){
-        return Auth::user()->is_admin;
-    }
     /**
      * Display the specified resource.
      *
@@ -28,7 +25,7 @@ class ProfileController extends Controller
     {
         if($this->lx_forbidden($user)) return redirect()->route('home');
         $title = 'Редактирование данных.';
-        if($this->is_admin()) return view('admin.profile', compact('user', 'title'));
+        if(Auth::user()->is_admin) return view('admin.profile', compact('user', 'title'));
         else return view('pages.profile', compact('user', 'title'));
     }
 
@@ -45,7 +42,9 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => "email|required|unique:users,email,{$user->id}",
-            'avatar' => "mimetypes:image/*"
+            'avatar' => "mimetypes:image/*",
+            'address' => "sometimes|string",
+            'main' => "sometimes|boolean"
         ]);
 
         $r = $request->all();
