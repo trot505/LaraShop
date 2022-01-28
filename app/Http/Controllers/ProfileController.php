@@ -83,6 +83,7 @@ class ProfileController extends Controller
     public function destroy(User $user)
     {
         if($this->lx_forbidden($user)) return redirect()->route('home');
-        //
+        $user->delete();
+        return back();
     }
 }
