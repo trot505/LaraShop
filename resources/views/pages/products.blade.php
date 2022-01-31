@@ -26,7 +26,7 @@
             </form>
             @endif
             <div class="btn-group float-end lh-base" role="group">
-                <a class="btn btn-secondary fs-5 text-teal" href="{{route('saveFile','Product')}}" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Выгрузить в файл">
+                <a class="btn btn-secondary fs-5 text-teal" href="{{route('saveFile','product')}}" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Выгрузить в файл">
                     <i class="fas fa-file-upload"></i>
                 </a>
             </div>
