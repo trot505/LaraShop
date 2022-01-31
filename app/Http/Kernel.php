@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
 
         //FS add
         'is_admin' => \App\Http\Middleware\CheckIsAdmin::class,
+        'user_forbidden' => \App\Http\Middleware\UserForbidden::class,
     ];
 }

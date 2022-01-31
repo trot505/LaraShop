@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SaveFileProductsJob;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use Arr;
+use Auth;
 use File;
 use Illuminate\Http\Request;
 use Storage;
@@ -12,6 +15,7 @@ use Storage;
 class FileController extends Controller
 {
     protected $pathFile;
+    protected $saveFile;
     protected $data;
     protected $columnName;
     protected $textFile;
@@ -42,7 +46,6 @@ class FileController extends Controller
     }
 
     public function save(string $cls){
-        $saveFile = config('my.public_files').'downloadsFile.csv';
 
         $headers = [
             'Content-Description: File Transfer',
@@ -53,21 +56,9 @@ class FileController extends Controller
             'Pragma: public'
         ];
 
-        $cls = "\App\Models\\$cls";
-        $this->data = $cls::get()->makeHidden(['picture','created_at','updated_at']);
-        [$this->columnName] = Arr::divide($this->data->first()->toArray());
+        $this->createFile($cls, Auth::user()->id);
 
-        $this->textFile = implode(';',array_values(array_intersect_key(self::COLUMN_LOCALE,array_flip($this->columnName)))).PHP_EOL;
-
-        //$this->textFile = implode(';',$this->columnName).PHP_EOL;
-
-        foreach($this->data->toArray() as $el){
-            $this->textFile .= implode(';',$el).PHP_EOL;
-        }
-
-        Storage::put($saveFile, $this->textFile);
-
-        return Storage::download($saveFile,'downloadFile.csv',$headers);
+        return Storage::download($this->saveFile,'downloadFile.csv',$headers);
     }
 
     protected function readFile(){
@@ -92,4 +83,33 @@ class FileController extends Controller
         $text = preg_replace("/^$bom/", '', $text);
         return $text;
     }*/
+
+    public function saveProducts(){
+        $job = new SaveFileProductsJob(Auth::user());
+        $this->dispatch($job);
+        //session(['filePath' => $job->getFilePath()]);
+        return back();
+    }
+
+    public function createFileProducts(int $id){
+        return $this->createFile('Product', $id);
+    }
+
+    private function createFile(string $cls, int $id = null){
+
+        $this->saveFile = config('my.public_files')."downloadsFile_{$cls}_{$id}.csv";
+        $cls = "\App\Models\\$cls";
+        $this->data = $cls::get()->makeHidden(['picture','created_at','updated_at']);
+        [$this->columnName] = Arr::divide($this->data->first()->toArray());
+
+        $this->textFile = implode(';',array_values(array_intersect_key(self::COLUMN_LOCALE,array_flip($this->columnName)))).PHP_EOL;
+
+        foreach($this->data->toArray() as $el){
+            $this->textFile .= implode(';',$el).PHP_EOL;
+        }
+
+        Storage::put($this->saveFile, $this->textFile);
+
+        return $this->saveFile;
+    }
 }

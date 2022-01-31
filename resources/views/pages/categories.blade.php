@@ -1,5 +1,4 @@
 @extends((Auth::user()?->is_admin)?'admin.layouts.app':'layouts.app')
-
 @section('content')
     @if(Auth::user()?->is_admin)
     <div class="alert alert-info d-flex align-items-stretch p-1" role="alert">
