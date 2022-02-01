@@ -47,7 +47,7 @@ class CreateFileJob implements ShouldQueue
     {
         $this->createFile();
 
-        $this->user->file_path_products = $this->filePath;
+        $this->user->file_path = $this->filePath;
         $this->user->save();
     }
 

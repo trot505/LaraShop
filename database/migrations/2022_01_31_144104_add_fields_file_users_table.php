@@ -14,7 +14,7 @@ class AddFieldsFileUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('file_path_products')->after('is_admin')->nullable();
+            $table->string('file_path')->after('is_admin')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddFieldsFileUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('file_path_products');
+            $table->dropColumn('file_path');
         });
     }
 }

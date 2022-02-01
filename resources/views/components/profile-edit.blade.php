@@ -9,6 +9,11 @@
             </div>
             <div class="col-9 d-flex">
                 <input class="form-control form-control-lg align-self-center @error('avatar') is-invalid @enderror" type="file" name="avatar">
+                @error('avatar')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
             </div>
         </div>
     </div>
@@ -20,6 +25,11 @@
             placeholder="Электронная почта"
             value="{{ $user->email }}">
         <label for="formEmail">Электронная почта</label>
+        @error('email')
+        <div class="invalid-feedback">
+            {{$message}}
+        </div>
+        @enderror
     </div>
     <div class="form-floating">
         <input type="text"
@@ -28,8 +38,13 @@
             placeholder="Имя"
             value="{{ $user->name }}">
         <label for="formName">Имя</label>
+        @error('name')
+        <div class="invalid-feedback">
+            {{$message}}
+        </div>
+        @enderror
     </div>
-    <div class="addresses">
+    <div class="addresses mt-3">
         <h5>Адреса пользователя</h5>
         <table class="table table-striped">
             <thead>

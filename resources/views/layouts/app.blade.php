@@ -87,6 +87,18 @@
                 @yield('content')
             </div>
         </main>
+        <footer>
+            @if($user && $user->file_path)
+            <div class="lx_block_info align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                  <div class="toast-body">
+                    Файл подготовлен для скачивания.
+                  </div>
+                  <a href="{{route('loadFile')}}" class="btn btn-white me-2 m-auto"><i class="fas fa-file-upload"></i></a>
+                </div>
+            </div>
+            @endif
+        </footer>
     </div>
 </body>
 </html>

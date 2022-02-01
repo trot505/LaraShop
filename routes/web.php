@@ -22,7 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('save-file/{cls}',[FileController::class,'save'])->name('saveFile');
+Route::get('save-file/{cls}',[FileController::class,'download'])->name('saveFile');
+Route::get('load-file',[FileController::class,'saveFile'])->name('loadFile');
 
 Route::get('category/{category}/products',[CategoryController::class,'productList'])->name('productCategory');
 Route::resource('category',CategoryController::class, [
@@ -107,5 +108,5 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
         'destroy'
     ]);
 
-    Route::post('upload-file/{cls}',[FileController::class,'upload'])->name('uploadFile');
+    Route::post('upload-file/{cls}',[FileController::class,'loading'])->name('uploadFile');
 });
