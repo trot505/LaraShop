@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Auth;
 use Illuminate\Http\Request;
+use Storage;
 
 class CategoryController extends Controller
 {
@@ -99,7 +100,24 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'picture' => "mimetypes:image/*"
+        ]);
+
+        $r = [
+            'name' => $request->input('name'),
+            'description' => $request->input('description') ?? null,
+        ];
+        $picture = $request->file('picture') ?? null;
+        if ($picture){
+            $path = $picture->store(config('my.images_product'));
+            if($category->picture !== 'no_picture.png') Storage::delete(config('my.images_product').$category->picture);
+            $r['picture'] = pathinfo($path, PATHINFO_BASENAME);
+        }
+
+        $category->update($r);
+        return back();
     }
 
     /**

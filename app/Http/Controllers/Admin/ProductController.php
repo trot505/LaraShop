@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Storage;
 
 class ProductController extends Controller
 {
@@ -47,7 +48,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required',
             'category_id' => 'required|integer',
@@ -101,7 +101,32 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'category_id' => 'required|integer',
+            'price' => 'sometimes|numeric',
+            'amount' => 'sometimes|nullable|integer',
+            'picture' => "sometimes|mimetypes:image/*"
+        ]);
+
+        $r = [
+            'name' => $request->input('name'),
+            'category_id' => $request->input('category_id'),
+            'amount' => $request->input('amount'),
+            'price' => $request->input('price'),
+            'description' => $request->input('description')
+        ];
+        $picture = $request->file('picture') ?? null;
+
+        if ($picture){
+            $path = $picture->store(config('my.images_product'));
+            if($product->picture !== 'no_picture.png') Storage::delete(config('my.images_product').$product->picture);
+            $r['picture'] = pathinfo($path, PATHINFO_BASENAME);
+        }
+
+        $product->update($r);
+
+        return back();
     }
 
     /**

@@ -54,7 +54,7 @@ class ProfileController extends Controller
         $address = $r['address'] ?? null;
         if($address){
             $a = $user->addresses->where('main',1);
-            $main = $r['main'] ?? 0;
+            $main = $request->boolean('main');
             if($a->isNotEmpty()){
                 if($main) $a->first()->update(['main' => 0]);
             } else $main = 1;
