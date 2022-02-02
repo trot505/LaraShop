@@ -48,7 +48,10 @@ class ParseUploadFileJob implements ShouldQueue
         $cont = fopen(Storage::path($this->filePath),'r');
         $this->columnName = fgetcsv($cont,3000,';');
         while(!feof($cont)){
-            $line = fgetcsv($cont,3000,';');
+            $line = (array) mb_convert_encoding(fgetcsv($cont,3000,';'),'UTF-8');
+            $line = array_map(function($v){
+                return $v === '' ? null : $v;
+            },$line);
             if($line && count($line) == count($this->columnName)) $this->insertArray[] = array_combine($this->columnName,$line);
         }
         fclose($cont);
@@ -57,6 +60,6 @@ class ParseUploadFileJob implements ShouldQueue
 
     protected function insertDb (){
         $cls = "\App\Models\\$this->cls";
-        dd($cls::insert($this->insertArray));
+        $cls::upsert($this->insertArray,['id'],$this->columnName);
     }
 }

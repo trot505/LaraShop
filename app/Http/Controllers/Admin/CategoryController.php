@@ -128,7 +128,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
+        if($category->products) session(['errors' => 'Удалить категорию нельзя, т.к. в ней есть товары']);
+        else $category->delete();
         return back();
     }
 }
