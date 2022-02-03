@@ -4,7 +4,9 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +38,16 @@ Route::resource('category',CategoryController::class, [
     'show'
 ]);
 
+Route::prefix('cart')->group(function (){
+    Route::get('/',[CartController::class,'index'])->name('cart');
+    Route::post('/add-cart',[CartController::class,'addProductCart'])->name('addProductCart');
+    Route::post('/update-cart',[CartController::class,'updateProductCart'])->name('updateProductCart');
+    Route::get('/remove-item-cart/{id}',[CartController::class,'removeProductCart'])->name('removeProductCart');
+});
+Route::prefix('order')->group(function (){
+    Route::get('/',[OrderController::class,'index'])->name('order');
+    Route::post('/create/{products}',[OrderController::class,'createOrder'])->name('createOrder');
+});
 Route::resource('product',ProductController::class, [
     'names' => [
         'index' => 'products',

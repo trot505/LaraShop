@@ -42,9 +42,15 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        <li class="nav-item text-center bg-transparent d-flex align-items-center p-1" style="border:none;">
+                            <a href="{{route('cart')}}" class="nav-item text-teal position-relative h-100">
+                                <i class="fas fa-shopping-basket fs-3"></i>
+                                <span class="position-absolute bottom-0 badge rounded-pill bg-info">{{array_sum(session('cart') ?? [])}}</span>
+                            </a>
+                        </li>
                         @guest
                             @if (Route::has('login'))
-                                <li class="nav-item">
+                                <li class="nav-item ms-4">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Вход') }}</a>
                                 </li>
                             @endif
@@ -55,7 +61,7 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown d-flex">
+                            <li class="nav-item dropdown d-flex ms-4">
                                 <div class="me-2">
                                     <img src="{{asset(config('my.images_user').$user->avatar)}}" alt="Ававтар" style="height:2em;width:2em;border-radius:50%;object-fit:cover;">
                                 </div>

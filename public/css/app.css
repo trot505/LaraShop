@@ -17419,6 +17419,14 @@ readers do not read off random characters that represent icons */
   color: #20c997 !important;
 }
 
+.text-grey-300 {
+  color: #dee2e6 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
 input.focus-none:focus-visible {
   outline: none;
 }

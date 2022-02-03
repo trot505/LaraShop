@@ -18,10 +18,8 @@
         </div>
     </div>
     <ul class="list-group justify-content-end bg-secondary" style="border:none;">
-        <li class="list-group-item text-center bg-transparent" style="border:none;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Информация о товаре">
-            <a href="{{route('productShow',$product)}}" class="text-cyan">
-                <i class="fas fa-info fs-5"></i>
-            </a>
+        <li class="list-group-item text-center bg-transparent text-cyan fs-5 cursor-pointer" style="border:none;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Доступное количество">
+            {{$product->amount}}
         </li>
         @if(Auth::user()?->is_admin)
             @include('admin.components._actions-product-card')
