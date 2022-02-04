@@ -43,10 +43,11 @@ Route::prefix('cart')->group(function (){
     Route::post('/add-cart',[CartController::class,'addProductCart'])->name('addProductCart');
     Route::post('/update-cart',[CartController::class,'updateProductCart'])->name('updateProductCart');
     Route::get('/remove-item-cart/{id}',[CartController::class,'removeProductCart'])->name('removeProductCart');
+    Route::post('/create-order',[CartController::class,'createOrder'])->name('createOrder');
 });
 Route::prefix('order')->group(function (){
     Route::get('/',[OrderController::class,'index'])->name('order');
-    Route::post('/create/{products}',[OrderController::class,'createOrder'])->name('createOrder');
+    Route::get('/repeat-order/{order}',[OrderController::class,'repeatOrder'])->name('repeatOrder');
 });
 Route::resource('product',ProductController::class, [
     'names' => [

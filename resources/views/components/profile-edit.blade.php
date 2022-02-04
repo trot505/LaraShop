@@ -121,9 +121,9 @@
                 <input type="text"
                     class="form-control"
                     name="address" id="formAddress"
-                    placeholder="Адрес"
+                    placeholder="Добавить адрес"
                 >
-                <label for="formAddress">Адрес</label>
+                <label for="formAddress">Добавить адрес</label>
             </div>
             <div class="col-2 form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="formMainAddress" value="1" name="main">

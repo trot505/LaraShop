@@ -7,3 +7,6 @@
         <a class="dropdown-item" href="{{ route('products') }}">Продукты</a>
     </div>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('order') }}"><i class="fas fa-receipt me-2 fs-3 text-teal"></i>Заказы</a>
+</li>

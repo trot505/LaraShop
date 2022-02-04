@@ -1,5 +1,5 @@
 <div class="form-floating mb-3">
-    <select class="form-select @error('{{$selectName}}')  is-invalid @enderror" name="{{$selectName}}" id="formSelect">
+    <select class="form-select @if($errors->has("$selectName")) is-invalid @endif" name="{{$selectName}}" id="formSelect">
       @if(!$selected)<option disabled selected>-- {{$defaultSelected}} --</option>@endif
       @forelse ($options as $option)
         <option value="{{ $option->id }}" @if($selected == $option->id) selected @endif>{{ $option->name }}</option>
@@ -8,9 +8,9 @@
       @endforelse
     </select>
     <label for="formSelect">Укажите {{$defaultSelected}}</label>
-    @error('{{$selectName}}')
+    @if($errors->has("$selectName"))
     <div class="invalid-feedback">
-        {{$message}}
+        {{$errors->first("$selectName")}}
     </div>
-    @enderror
+    @endif
 </div>
