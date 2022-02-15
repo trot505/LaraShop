@@ -20,8 +20,11 @@
 
         $selected = $addresses->filter(function($a){
             if ($a->main === 1) return $a;
-        })->first()->id;
+        })->first()->id ?? null;
         //$selectOptions = compact('defaultSelected','selectName','options','selected','errors');
     @endphp
-    @include('components._select')
+    @if($options->isEmpty())
+        <div class="fs-5">У вас отсутсвуют адреса для доставки, перейдите в <a href="{{ route('profile.show', $user) }}" class="link-info">профиль</a> для добавления адреса.</div>
+    @else @include('components._select') @endif
+
 </div>

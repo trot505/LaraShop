@@ -65,6 +65,7 @@ class ProductController extends Controller
         }
         Product::create($r);
 
+        session()->flash('successAnswer', 'Товар успешно сохранен.');
         return redirect()->route('products');
     }
 
@@ -125,7 +126,7 @@ class ProductController extends Controller
         }
 
         $product->update($r);
-
+        session()->flash('successAnswer', 'Товар успешно сохранен.');
         return back();
     }
 

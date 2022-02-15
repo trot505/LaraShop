@@ -64,7 +64,7 @@ class CategoryController extends Controller
         }
 
         Category::create($r);
-
+        session()->flash('successAnswer', 'Категория успешно сохранена.');
         return redirect()->route('pages.categories');
     }
 
@@ -117,6 +117,7 @@ class CategoryController extends Controller
         }
 
         $category->update($r);
+        session()->flash('successAnswer', 'Категория успешно сохранена.');
         return back();
     }
 

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Mail\OrderCreated;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
+use Mail;
 
 class CartController extends Controller
 {
@@ -88,13 +90,22 @@ class CartController extends Controller
 
         $order->products()->attach($prepare_products);
 
-        session()->forget('cart');
+        Mail::to($user->email)
+            ->queue(new OrderCreated([
+                'products' => $products,
+                'totalSum' => $sum,
+                'name' => $user->name,
+                'address' => $address->address
+            ]));
 
         foreach ($products as $product){
             $product->amount -= $product->quantity;
             unset($product->quantity, $product->sum);
             $product->save();
         }
+
+        session()->forget('cart');
+
         return redirect()->route('order');
     }
 
