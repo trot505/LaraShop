@@ -1,7 +1,8 @@
+<h1>{{ $title }}</h1>
 <form action="{{ route('profile.update', $user) }}" method="post" enctype="multipart/form-data">
     @method('PUT')
     @csrf
-    <h1>{{ $title }}</h1>
+
     <div class="mb-3">
         <div class="row">
             <div class="col-3 text-center">
@@ -31,7 +32,7 @@
         </div>
         @enderror
     </div>
-    <div class="form-floating">
+    <div class="form-floating mb-3">
         <input type="text"
             class="form-control @error('name') is-invalid @enderror"
             name="name" id="formName"
@@ -44,8 +45,53 @@
         </div>
         @enderror
     </div>
-    <div class="addresses mt-3">
-        <h5>Адреса пользователя</h5>
+    <h5>Сменит пароль</h5>
+    <div class="form-floating mb-3">
+        <input type="password"
+            class="form-control @error('current_password') is-invalid @enderror"
+            name="current_password"
+            id="formPassword"
+            placeholder="Текущий пароль"
+            autocomplete="new-password"
+            >
+        <label for="formPassword">Текущий пароль</label>
+        @error('current_password')
+        <div class="invalid-feedback">
+            {{$message}}
+        </div>
+        @enderror
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password"
+            class="form-control @error('password') is-invalid @enderror"
+            name="password"
+            id="formPassword"
+            placeholder="Новый пароль"
+            autocomplete="new-password"
+            >
+        <label for="formPassword">Новый пароль</label>
+        @error('password')
+        <div class="invalid-feedback">
+            {{$message}}
+        </div>
+        @enderror
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password"
+            class="form-control @error('password_confirmation') is-invalid @enderror"
+            name="password_confirmation"
+            id="formPasswordConfirm"
+            placeholder="Подтверждение пароля"
+            >
+        <label for="formPasswordConfirm">Подтверждение пароля</label>
+        @error('password_confirmation')
+        <div class="invalid-feedback">
+            {{$message}}
+        </div>
+        @enderror
+    </div>
+    <h5>Адреса:</h5>
+    <div class="addresses mt-3" >
         <table class="table table-striped">
             <thead>
                 <tr class="text-center">
@@ -131,5 +177,6 @@
             </div>
         </div>
     </div>
+
     <button type="submit" class="btn btn-outline-success mt-3 w-100">Сохранить</button>
 </form>

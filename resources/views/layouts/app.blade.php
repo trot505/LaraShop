@@ -90,6 +90,11 @@
 
         <main class="py-4">
             <div class="container">
+                @if(session('successAnswer'))
+                <div class="alert alert-success" role="alert">
+                    {{session('successAnswer') ?? 'Данные успешно сохранены.'}}
+                </div>
+                @endif
                 @yield('content')
             </div>
         </main>

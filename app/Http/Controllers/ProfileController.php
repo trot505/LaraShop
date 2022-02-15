@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Hash;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,12 +36,15 @@ class ProfileController extends Controller
      */
     public function update(Request $request, User $user)
     {
+
         $request->validate([
             'name' => 'required',
             'email' => "email|required|unique:users,email,{$user->id}",
             'avatar' => "mimetypes:image/*",
-            'address' => "sometimes|string",
-            'main' => "sometimes|boolean"
+            'address' => "sometimes|nullable|string",
+            'main' => "sometimes|accepted",
+            'password' => 'nullable|string|min:8|confirmed|required_with:current_password',
+            'current_password' => 'current_password|nullable|'
         ]);
 
         $r = $request->all();
@@ -62,10 +67,15 @@ class ProfileController extends Controller
             $user->addresses()->create(compact('address', 'main'));
         }
 
+        if($r['password']){
+            $user->password = Hash::make($r['password']);
+        }
+
         $user->name = $r['name'];
         $user->email = $r['email'];
         $user->update();
 
+        session()->flash('successAnswer', 'Данные успешно сохранены.');
         return back();
     }
 
@@ -79,5 +89,9 @@ class ProfileController extends Controller
     {
         $user->delete();
         return back();
+    }
+
+    private function checkPassword(string $pas, User $user){
+        return Hash::check($pas, $user->password);
     }
 }
