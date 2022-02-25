@@ -76,6 +76,7 @@ class AddressController extends Controller
 
         $main = $request->post('main') ?? null;
         if($main){
+            // находим основной адрес и меняем у него состояние
             Address::whereMain(1)->whereUserId($address->user_id)->first()?->update(['main' => !$main]);
             $address->update(['main' => $main]);
         }
@@ -94,6 +95,7 @@ class AddressController extends Controller
      */
     public function destroy(Address $address)
     {
+        //если удаляем адрес находим первый адрес и делаем его основным
         if($address->main) Address::whereUserId($address->user_id)->where('id','<>',$address->id)->first()?->update(['main' => 1]);
         $address->delete();
         return back();

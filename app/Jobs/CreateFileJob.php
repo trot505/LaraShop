@@ -55,8 +55,10 @@ class CreateFileJob implements ShouldQueue
         $this->filePath = config('my.public_files')."downloadsFile_{$this->cls}_{$this->user->id}.csv";
         $class = "\App\Models\\$this->cls";
         $data = $class::get()->makeHidden(['picture','created_at','updated_at']);
+        //разделяем массив на ключи и значения и полчаем ключи массива в переменную
         [$columnName] = Arr::divide($data->first()->toArray());
 
+        //преобразуем массив колонок в строку с заменой на русский язык
         $textFile = implode(';',array_values(array_intersect_key(self::COLUMN_LOCALE,array_flip($columnName)))).PHP_EOL;
 
         foreach($data->toArray() as $el){

@@ -12,6 +12,7 @@ class ProfileController extends Controller
 {
 
     function __construct(){
+        //проверка кто имеет права доступа
         $this->middleware('user_forbidden');
     }
     /**

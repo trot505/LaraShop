@@ -12,6 +12,7 @@ use Storage;
 class FileController extends Controller
 {
 
+    //запускаем задачу на парсинг файла для добавления категорий или продуктов
     public function loading (Request $request, string $cls) {
 
         $request->validate([
@@ -26,13 +27,14 @@ class FileController extends Controller
         return back();
     }
 
+    //запускаем задачу на формирование файла выгрузки категорий или товаров
     public function download (string $cls){
 
         dispatch(new CreateFileJob(Auth::user(),$cls));
-
         return back();
     }
 
+    // функция загрузки файла клиенту
     public function saveFile (){
 
         $headers = [
@@ -50,6 +52,7 @@ class FileController extends Controller
         $user->file_path = null;
         $user->save();
 
+        //задача на удаление файла
         dispatch(new DeleteFileJob($filePath));
 
         return Storage::download($filePath,'downloadFile.csv',$headers);

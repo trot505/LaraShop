@@ -52,6 +52,7 @@ class ParseUploadFileJob implements ShouldQueue
             $line = array_map(function($v){
                 return $v === '' ? null : $v;
             },$line);
+            //подготваливем массив для записи в бд из названий колонок и их значений
             if($line && count($line) == count($this->columnName)) $this->insertArray[] = array_combine($this->columnName,$line);
         }
         fclose($cont);

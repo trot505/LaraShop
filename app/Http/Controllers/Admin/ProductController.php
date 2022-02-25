@@ -121,6 +121,7 @@ class ProductController extends Controller
 
         if ($picture){
             $path = $picture->store(config('my.images_product'));
+            // удаляем предыдущую картинку
             if($product->picture !== 'no_picture.png') Storage::delete(config('my.images_product').$product->picture);
             $r['picture'] = pathinfo($path, PATHINFO_BASENAME);
         }

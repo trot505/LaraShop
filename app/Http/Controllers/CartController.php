@@ -74,6 +74,7 @@ class CartController extends Controller
         $products = $this->sessionProducts();
         $sum = round($products->sum('sum'),2);
 
+        //массив ключей и их значений с определенным набором данных для напонения сводной таблицы
         $prepare_products = array_combine($products->modelKeys(),$products->makeHidden([
             'id',
             'name',
@@ -90,6 +91,7 @@ class CartController extends Controller
 
         $order->products()->attach($prepare_products);
 
+        //формируем задачу для отправки сообщения о заказе
         Mail::to($user->email)
             ->queue(new OrderCreated([
                 'products' => $products,
@@ -98,6 +100,7 @@ class CartController extends Controller
                 'address' => $address->address
             ]));
 
+        //корректируем остаток товара
         foreach ($products as $product){
             $product->amount -= $product->quantity;
             unset($product->quantity, $product->sum);

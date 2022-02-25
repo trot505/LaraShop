@@ -112,6 +112,7 @@ class CategoryController extends Controller
         $picture = $request->file('picture') ?? null;
         if ($picture){
             $path = $picture->store(config('my.images_product'));
+            // удаляем предыдущую картинку
             if($category->picture !== 'no_picture.png') Storage::delete(config('my.images_product').$category->picture);
             $r['picture'] = pathinfo($path, PATHINFO_BASENAME);
         }
