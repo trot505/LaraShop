@@ -43,7 +43,7 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item dropdown d-flex">
                             <div class="me-2">
-                                <img src="{{asset(config('my.images_user').$user->avatar)}}" alt="Ававтар" style="height:2em;width:2em;border-radius:50%;object-fit:cover;">
+                                <img src="{{asset(config('my.images_user').$user->avatar)}}" alt="Аватар" style="height:2em;width:2em;border-radius:50%;object-fit:cover;">
                             </div>
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ $user->name }}
@@ -71,6 +71,11 @@
                 @if(session('successAnswer'))
                 <div class="alert alert-success" role="alert">
                     {{session('successAnswer') ?? 'Данные успешно сохранены.'}}
+                </div>
+                @endif
+                @if(session('err'))
+                <div class="alert alert-warning" role="alert">
+                    {{session('err') ?? ''}}
                 </div>
                 @endif
                 @yield('content')

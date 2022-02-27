@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Arr;
 use Hash;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
@@ -37,19 +38,61 @@ class ProfileController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $request->validate([
+            'name' => 'sometimes|required',
+            'email' => "sometimes|required|unique:users,email,{$user->id}",
+            'avatar' => "sometimes|mimetypes:image/*",
+            'addresses.*.address' => "sometimes|nullable|string",
+            'addresses.*.main' => "sometimes|accepted",
+            'password' => 'sometimes|nullable|string|min:8|confirmed|required_with:current_password',
+            'current_password' => 'sometimes|current_password|nullable|'
+        ]);
+        [$userTableColumnName] = Arr::divide($user->makeHidden([
+            "id", "email_verified_at","is_admin","file_path","created_at","updated_at"
+        ])->toArray());
+        foreach ($userTableColumnName as $key) {
+            if($request->input($key)) $user[$key] = $request->input($key);
+        }
 
+        $avatar = $request->file('avatar') ?? null;
+        if ($avatar){
+            $path = $avatar->store(config('my.images_user'));
+            $user->avatar = pathinfo($path, PATHINFO_BASENAME);
+        }
+
+        $addresses = $request->input('addresses') ?? null;
+        if($addresses){
+            //id текущих адресов в БД
+            $old_addresses = Arr::pluck($user->addresses->sortBy('id')->toArray(),'id');
+
+            $addresses = json_decode($addresses, true);
+            //id адрусов подлежащих удалдению
+            $id_remove_addresses = array_diff($old_addresses, Arr::pluck($addresses,'id'));
+            if($id_remove_addresses) $user->addresses($id_remove_addresses)->delete();
+
+            $user->addresses()->upsert($addresses, 'id', ['address', 'main', 'user_id']);
+        }
+
+        if($request->input('password')){
+            $user->password = Hash::make($request->input('password'));
+        }
+        $user->update();
+        return response()->json(['avatar' => $user->avatar]);
+    }
+
+    public function updateOLLLLD(Request $request, User $user)
+    {
         $request->validate([
             'name' => 'required',
             'email' => "email|required|unique:users,email,{$user->id}",
             'avatar' => "mimetypes:image/*",
-            'address' => "sometimes|nullable|string",
-            'main' => "sometimes|accepted",
+            'addresses.*.address' => "sometimes|nullable|string",
+            'addresses.*.main' => "sometimes|accepted",
             'password' => 'nullable|string|min:8|confirmed|required_with:current_password',
             'current_password' => 'current_password|nullable|'
         ]);
 
         $r = $request->all();
-
         $avatar = $request->file('avatar') ?? null;
 
         if ($avatar){

@@ -139,7 +139,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product->delete();
+        if(!$product->orders->isEmpty()) session()->flash('err', 'Удалить товар нельзя, т.к. по нему есть заказы');
+        else $product->delete();
         return back();
     }
 }

@@ -20,8 +20,13 @@
             </div>
             <form class="rounded-2 me-2 bg-secondary d-flex" action="{{route('uploadFile','category')}}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input class="form-control form-control-sm align-self-center m-1 @error('parse_file') is-invalid @enderror" name="parse_file" type="file" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@error('parse_file') {{$message}} @enderror">
-                <button type="submit" class="btn btn-secondary fs-5 text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Загрузить из файла">
+                <input
+                    class="form-control form-control-sm align-self-center m-1 @error('parse_file') is-invalid @enderror"
+                    name="parse_file"
+                    type="file"
+                    title="@error('parse_file') {{$message}} @enderror"
+                />
+                <button type="submit" class="btn btn-secondary fs-5 text-info" title="Загрузить из файла">
                     <i class="fas fa-file-download"></i>
                 </button>
             </form>

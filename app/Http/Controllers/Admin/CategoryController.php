@@ -130,7 +130,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if($category->products) session(['errors' => 'Удалить категорию нельзя, т.к. в ней есть товары']);
+        if(!$category->products->isEmpty()) session()->flash('err', 'Удалить категорию нельзя, т.к. в ней есть товары');
         else $category->delete();
         return back();
     }
