@@ -9,6 +9,10 @@ class Address extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'main' => 'boolean',
+    ];
+
     protected $fillable = [
         'address',
         'main',
