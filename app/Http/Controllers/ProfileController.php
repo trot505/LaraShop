@@ -38,15 +38,22 @@ class ProfileController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $addresses = $request->input('addresses') ?? null;
+        if($addresses) {
+            $addresses = json_decode($addresses, true);
+            $request->merge(['addresses' => $addresses]);
+        }
         $request->validate([
             'name' => 'sometimes|required',
             'email' => "sometimes|required|unique:users,email,{$user->id}",
             'avatar' => "sometimes|mimetypes:image/*",
-            'addresses.*.address' => "sometimes|nullable|string",
-            'addresses.*.main' => "sometimes|accepted",
+            'addresses.*.address' => "sometimes|required|string",
+            'addresses.*.main' => "sometimes|boolean",
             'password' => 'sometimes|nullable|string|min:8|confirmed|required_with:current_password',
             'current_password' => 'sometimes|current_password|nullable|'
         ]);
+
+        //получаем назавния столбцов бд
         [$userTableColumnName] = Arr::divide($user->makeHidden([
             "id", "email_verified_at","is_admin","file_path","created_at","updated_at"
         ])->toArray());
@@ -60,12 +67,12 @@ class ProfileController extends Controller
             $user->avatar = pathinfo($path, PATHINFO_BASENAME);
         }
 
-        $addresses = $request->input('addresses') ?? null;
+
         if($addresses){
             //id текущих адресов в БД
             $old_addresses = Arr::pluck($user->addresses->sortBy('id')->toArray(),'id');
 
-            $addresses = json_decode($addresses, true);
+            //$addresses = json_decode($addresses, true);
             //id адрусов подлежащих удалдению
             $id_remove_addresses = array_diff($old_addresses, Arr::pluck($addresses,'id'));
             if($id_remove_addresses) $user->addresses($id_remove_addresses)->delete();

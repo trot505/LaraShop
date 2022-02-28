@@ -5,7 +5,7 @@
                 v-model="address.address"
                 placeholder="Адрес:"
                 name="address"
-                :error="error['address']"
+                :error="merror"
             ></lx-input>
         </div>
         <div class="d-flex">
@@ -34,16 +34,15 @@ import LxInput from './lx_input'
 export default {
     props:{
         maddress: {type:Object, default:null},
-        merror: {type:String, default:''}
+        merror: {type:[String,Object], default:''}
     },
     data () {
         return{
             address: this.maddress,
-            error: this.merror,
         }
     },
     model:{
-        prop: ['maddress', 'merror'],
+        prop: ['maddress'],
     },
     components:{LxInput},
 }
