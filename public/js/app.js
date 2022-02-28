@@ -5365,6 +5365,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5525,18 +5526,17 @@ __webpack_require__.r(__webpack_exports__);
       "default": null
     },
     merror: {
-      type: String,
+      type: [String, Object],
       "default": ''
     }
   },
   data: function data() {
     return {
-      address: this.maddress,
-      error: this.merror
+      address: this.maddress
     };
   },
   model: {
-    prop: ['maddress', 'merror']
+    prop: ['maddress']
   },
   components: {
     LxInput: _lx_input__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -28499,10 +28499,13 @@ var render = function () {
               ),
             ]),
             _vm._v(" "),
-            _vm._l(_vm.user.addresses, function (address) {
+            _vm._l(_vm.user.addresses, function (address, idx) {
               return _c("address-line", {
                 key: address.id,
-                attrs: { maddress: address },
+                attrs: {
+                  maddress: address,
+                  merror: _vm.errors["addresses." + idx + ".address"],
+                },
                 on: {
                   removeAddress: _vm.removeAddress,
                   mainAddress: _vm.mainAddress,
@@ -28528,7 +28531,7 @@ var render = function () {
               attrs: {
                 "input-type": "password",
                 placeholder: "Текущий пароль",
-                name: "password",
+                name: "current_password",
                 error: _vm.errors["current_password"],
               },
               model: {
@@ -28560,7 +28563,7 @@ var render = function () {
               attrs: {
                 "input-type": "password",
                 placeholder: "Подтверждение пароля",
-                name: "password",
+                name: "password_confirmation",
               },
               model: {
                 value: _vm.password_confirmation,
@@ -28683,7 +28686,7 @@ var render = function () {
             attrs: {
               placeholder: "Адрес:",
               name: "address",
-              error: _vm.error["address"],
+              error: _vm.merror,
             },
             model: {
               value: _vm.address.address,

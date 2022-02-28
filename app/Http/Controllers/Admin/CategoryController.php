@@ -65,7 +65,7 @@ class CategoryController extends Controller
 
         Category::create($r);
         session()->flash('successAnswer', 'Категория успешно сохранена.');
-        return redirect()->route('pages.categories');
+        return redirect()->route('categories');
     }
 
     /**

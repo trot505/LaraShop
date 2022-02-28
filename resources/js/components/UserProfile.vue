@@ -48,9 +48,10 @@
                     <button class="btn btn-outline-warning float-end" @click="addAddress">Добавить адрес</button>
                 </h3>
                 <address-line
-                    v-for="address in user.addresses"
+                    v-for="(address,idx) in user.addresses"
                     :key="address.id"
                     :maddress="address"
+                    :merror="errors[`addresses.${idx}.address`]"
                     @removeAddress="removeAddress"
                     @mainAddress="mainAddress"
                 >
@@ -61,7 +62,7 @@
                     v-model="current_password"
                     input-type="password"
                     placeholder="Текущий пароль"
-                    name="password"
+                    name="current_password"
                     :error="errors['current_password']"
                 ></lx-input>
                 <lx-input
@@ -75,7 +76,7 @@
                     v-model="password_confirmation"
                     input-type="password"
                     placeholder="Подтверждение пароля"
-                    name="password"
+                    name="password_confirmation"
                 ></lx-input>
             </div>
         </div>
